@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { jwtDecode } from "jwt-decode";
 
 const Register = () => {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -21,17 +21,28 @@ const Register = () => {
     });
   };
 
-  //   console.log(formData);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post('http://localhost:3000/api/auth/register', formData);
       console.log(res.data);
 
-      localStorage.setItem('token', res.data.token);
+      if (res.data.token) {
+        const token = res.data.token;
+        localStorage.setItem('token', token);
 
-      navigate('/dashboard');
+        const decodedToken = jwtDecode(token);
+
+        const userRole = decodedToken.user.role;
+
+        console.log("User role:", userRole);
+
+        localStorage.setItem('role', userRole);
+
+        navigate('/dashboard');
+      } else {
+        console.error('Token not found in the response');
+      }
     } catch (err) {
       console.error(err);
     }

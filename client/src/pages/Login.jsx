@@ -22,13 +22,13 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log("Form data being sent:", formData);
+      // console.log("Form data being sent:", formData);
       const res = await axios.post('http://localhost:3000/api/auth/login', formData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
-      console.log("Response data:", res.data);
+      // console.log("Response data:", res.data);
       if (res.data.token) {
         const token = res.data.token;
         localStorage.setItem('token', token);

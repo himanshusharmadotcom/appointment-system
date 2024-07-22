@@ -15,7 +15,7 @@ const Dashboard = () => {
   // console.log(role);
 
   if (!role) {
-    navigate('/login'); 
+    navigate('/login');
     return null;
   }
 
@@ -25,7 +25,7 @@ const Dashboard = () => {
     } else if (role === 'Teacher') {
       fetchAppointments();
     }
-  }, [role]);
+  }, []);
 
   const fetchTeachers = async () => {
     try {
@@ -36,7 +36,7 @@ const Dashboard = () => {
         navigate('/login');
         return;
       }
-  
+
       const res = await axios.get('http://localhost:3000/api/users/teachers', {
         headers: {
           Authorization: `Bearer ${token}`
@@ -88,6 +88,9 @@ const Dashboard = () => {
       });
 
       console.log('Appointment booked:', res.data);
+      setSelectedTeacher('');
+      setDate('');
+      setTime('');
     } catch (err) {
       console.error('Error booking appointment:', err.response ? err.response.data : err.message);
     }
@@ -120,6 +123,8 @@ const Dashboard = () => {
       console.error('Error updating appointment status:', err.response ? err.response.data : err.message);
     }
   };
+
+  // console.log(appointments);
 
   return (
     <div className="p-6">
@@ -166,21 +171,25 @@ const Dashboard = () => {
       {role === 'Teacher' && (
         <div>
           <h2 className="text-2xl font-bold mb-4">Confirm Appointments</h2>
-          <ul>
-            {appointments.map((appointment) => (
-              <li key={appointment._id} className="mb-4 p-4 bg-white rounded shadow">
-                <p>Student: {appointment.studentId.name}</p>
-                <p>Date: {appointment.date}</p>
-                <p>Time: {appointment.time}</p>
-                <button
-                  className={`mt-2 px-4 py-2 text-white rounded ${appointment.confirmed ? 'bg-red-500' : 'bg-green-500'}`}
-                  onClick={() => handleConfirmAppointment(appointment._id, appointment.confirmed)}
-                >
-                  {appointment.confirmed ? 'Confirmed' : 'Confirm'}
-                </button>
-              </li>
-            ))}
-          </ul>
+          {appointments.length === 0 ? (
+            <p>No students have applied for an appointment yet.</p>
+          ) : (
+            <ul>
+              {appointments.map((appointment) => (
+                <li key={appointment._id} className="mb-4 p-4 bg-white rounded shadow">
+                  <p>Student: {appointment.studentId.name}</p>
+                  <p>Date: {appointment.date}</p>
+                  <p>Time: {appointment.time}</p>
+                  <button
+                    className={`mt-2 px-4 py-2 text-white rounded ${appointment.confirmed ? 'bg-red-500' : 'bg-green-500'}`}
+                    onClick={() => handleConfirmAppointment(appointment._id, appointment.confirmed)}
+                  >
+                    {appointment.confirmed ? 'Confirmed' : 'Confirm'}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       )}
     </div>

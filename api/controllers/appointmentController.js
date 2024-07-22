@@ -34,19 +34,6 @@ export const getAppointments = async (req, res) => {
 };
 
 export const confirmAppointment = async (req, res) => {
-  // try {
-  //   let appointment = await Appointment.findById(req.params.id);
-  //   if (!appointment) {
-  //     return res.status(404).json({ msg: 'Appointment not found' });
-  //   }
-  //   appointment.confirmed = true;
-  //   await appointment.save();
-  //   res.json(appointment);
-  // } catch (err) {
-  //   console.error(err.message);
-  //   res.status(500).send('Server error');
-  // }
-
   try {
     const appointmentId = req.params.id;
     const appointment = await Appointment.findById(appointmentId);
@@ -62,3 +49,4 @@ export const confirmAppointment = async (req, res) => {
     res.status(500).send({ message: error.message });
   }
 };
+

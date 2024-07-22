@@ -33,7 +33,7 @@ const Profile = () => {
       }
     };
     fetchProfile();
-  }, [navigate]);
+  }, []);
 
   const handleChange = (e) => {
     setProfile({
@@ -91,7 +91,7 @@ const Profile = () => {
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md w-full max-w-sm">
+      <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md w-full max-w-sm mt-12 md:mt-0">
         <h2 className="text-2xl font-bold mb-4 text-center">Profile</h2>
         <div className="mb-4">
           <label className="block mb-1">Name</label>

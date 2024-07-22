@@ -5,10 +5,16 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Profile from './pages/Profile'
 import Dashboard from './pages/Dashboard'
+import Header from './components/Header'
 
 const App = () => {
+
+  const userRole = 'Student';
+
+  
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
         <Route path='/' element={<Home/>}></Route>
         <Route path='/login' element={<Login/>}></Route>
